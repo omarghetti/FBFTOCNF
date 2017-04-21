@@ -1,6 +1,3 @@
-%%%%%% 793181 Ghetti Omar %%%%%%
-%%%%%% 794692 Grazioli Andrea %%%%%%
-
 /* definisco le varie fbf */
 
 fbf(and).
@@ -499,58 +496,6 @@ nega_disgiunzione(A, [H | FBF], CNF) :-
 	nega_disgiunzione(CNF3, FBF, CNF2),
 	append([not(A)], CNF2, CNF1),
 	CNF = CNF1, !.
-
-/*
-		IS_HORN
-		il predicato prende una FBF, effettua la conversione in CNF e controlla che quest'ultima sia una clausola di horn
-		
-*/
-is_horn(FBF) :-
-	is_termine(FBF), !.
-
-is_horn(FBF) :-
-	compound(FBF),
-	validafbf(FBF),
-	tocnf_2([FBF], CNF),
-	CNF =.. NCNF,
-	is_horn_2(NCNF, C),
-	C < 2,!.
-
-is_horn_2([H | T], C) :-
-	H = or,
-	is_horn_2(T, C1),
-	C is C1 + 0, !.
-
-is_horn_2([H | T], C) :-
-	H = and,
-	is_horn_2(T, C1),
-	C is C1 + 0, !.
-
-is_horn_2([H | T], C) :-
-	H \= and,
-	H \= or,
-	H \= not(_),
-	is_horn_2(T, C1),
-	C is C1 + 1.
-
-is_horn_2([H | T], C) :-
-	H \= and,
-	H \= or,
-	H = not(_),
-	is_horn_2(T, C1),
-	C is C1 + 0.
-
-is_horn_2([H | []], C) :-
-	H \= and,
-	H \= or,
-	H = not(_),
-	C = 0.
-
-is_horn_2([H | []], C) :-
-	H \= and,
-	H \= or,
-	H \= not(_),
-	C = 1.
 	
 	/* predicato di skolemizzazione */
 	
